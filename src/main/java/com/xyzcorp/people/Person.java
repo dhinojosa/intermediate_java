@@ -37,13 +37,12 @@ public class Person {
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
         return Objects.equals(firstName, person.firstName) &&
-                Objects.equals(lastName, person.lastName) &&
-                eyeColor == person.eyeColor;
+                Objects.equals(lastName, person.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName, eyeColor);
+        return Objects.hash(firstName, lastName);
     }
 
     @Override

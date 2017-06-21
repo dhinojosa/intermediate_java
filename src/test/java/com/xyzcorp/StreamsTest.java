@@ -108,16 +108,16 @@ public class StreamsTest {
                 Stream.of(1, 2, 3, 4).flatMap(x -> Stream.of(-x, x, x + 2));
 
         Stream<LocalDateTime> stream1 = Stream.generate(LocalDateTime::now)
-                                            .flatMap(x -> Stream.of(x, x.plusYears(10)))
-                                            .limit(20);
+                                              .flatMap(x -> Stream.of(x, x.plusYears(10)))
+                                              .limit(20);
 
         System.out.println("stream1 = " + stream1);
 
 
         Set<LocalDateTime> dateTimes = Stream.generate(LocalDateTime::now)
-                                            .flatMap(x -> Stream.generate(() -> x.plusMinutes(10)).limit(10))
-                                            .limit(10)
-                                            .collect(Collectors.toSet());
+                                             .flatMap(x -> Stream.generate(() -> x.plusMinutes(10)).limit(10))
+                                             .limit(10)
+                                             .collect(Collectors.toSet());
 
         System.out.println("dateTimes = " + dateTimes);
 
@@ -127,10 +127,13 @@ public class StreamsTest {
 
         Stream<Integer> s3 = Stream.of(0);
 
-        List<Integer> result = s1.flatMap(x -> s2.flatMap(y -> s3.flatMap(z -> {
-            if (z == 0) return Stream.empty();
-            else return Stream.of(x + y / z);
-        }))).collect(Collectors.toList());
+        List<Integer> result =
+                s1.flatMap(x ->
+                        s2.flatMap(y ->
+                                s3.flatMap(z -> {
+                                    if (z == 0) return Stream.empty();
+                                    else return Stream.of(x + y / z);
+                                }))).collect(Collectors.toList());
 
         System.out.println("result = " + result);
 
@@ -177,16 +180,16 @@ public class StreamsTest {
         Stream<String> stream =
                 Stream.of("Apple", "Orange", "Banana", "Tomato", "Grapes", "Plum", "Kiwi");
         System.out.println(stream
-                  .sorted(Comparator
-                          .comparing(String::length).thenComparing(identity()))
-                  .collect(Collectors.toList()));
+                .sorted(Comparator
+                        .comparing(String::length).thenComparing(identity()))
+                .collect(Collectors.toList()));
     }
 
     @Test
     public void testGrouping() {
         IntStream stream = IntStream.range(0, 150403010);
         Map<Boolean, List<Integer>> groups = stream.parallel().boxed()
-                                                    .collect(Collectors.groupingByConcurrent(i -> i % 3 == 0));
+                                                   .collect(Collectors.groupingByConcurrent(i -> i % 3 == 0));
         System.out.println(groups);
     }
 

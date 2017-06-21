@@ -22,6 +22,10 @@ public class Box<A> {
         return contents;
     }
 
+    public <R> Box<R> map(Function<? super A, ? extends R> f) {
+        return new Box<>(f.apply(contents));
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public boolean equals(Object o) {
