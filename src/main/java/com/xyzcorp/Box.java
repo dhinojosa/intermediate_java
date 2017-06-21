@@ -22,13 +22,6 @@ public class Box<A> {
         return contents;
     }
 
-    public <B> Box<B> map(Function<? super A, ? extends B> function)
-    {
-
-        return new Box<>(function.apply(contents));
-    }
-
-
     @Override
     @SuppressWarnings("unchecked")
     public boolean equals(Object o) {

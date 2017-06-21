@@ -2,14 +2,15 @@ package com.xyzcorp;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static java.util.function.Function.identity;
 import static org.junit.Assert.assertEquals;
 
 public class StreamsTest {
@@ -102,8 +103,130 @@ public class StreamsTest {
     public void testFlatMap() {
         Stream<Stream<Integer>> streamStream =
                 Stream.of(1, 2, 3, 4).map(x -> Stream.of(-x, x, x + 2));
-        List<Integer> list = streamStream.collect(
-                Collectors.toCollection(ArrayList::new));
+
+        Stream<Integer> stream =
+                Stream.of(1, 2, 3, 4).flatMap(x -> Stream.of(-x, x, x + 2));
+
+        Stream<LocalDateTime> stream1 = Stream.generate(LocalDateTime::now)
+                                            .flatMap(x -> Stream.of(x, x.plusYears(10)))
+                                            .limit(20);
+
+        System.out.println("stream1 = " + stream1);
+
+
+        Set<LocalDateTime> dateTimes = Stream.generate(LocalDateTime::now)
+                                            .flatMap(x -> Stream.generate(() -> x.plusMinutes(10)).limit(10))
+                                            .limit(10)
+                                            .collect(Collectors.toSet());
+
+        System.out.println("dateTimes = " + dateTimes);
+
+        Stream<Integer> s1 = Stream.of(10 + 20);
+
+        Stream<Integer> s2 = Stream.of(50 + 19);
+
+        Stream<Integer> s3 = Stream.of(0);
+
+        List<Integer> result = s1.flatMap(x -> s2.flatMap(y -> s3.flatMap(z -> {
+            if (z == 0) return Stream.empty();
+            else return Stream.of(x + y / z);
+        }))).collect(Collectors.toList());
+
+        System.out.println("result = " + result);
+
+    }
+
+
+    public int factorial(int value) {
+        IntStream range = IntStream.range(1, value + 1);
+        return range.reduce(1, (left, right) -> {
+            System.out.format("Left: %d, Right: %d\n", left, right);
+            return left * right;
+        });
+    }
+
+    @Test
+    public void testTheMysteryMathProperty() {
+        System.out.println(factorial(5));
+    }
+
+    @Test
+    public void testReduceWithASeed() {
+        Stream<Integer> stream = Stream.of(1, 2, 3, 4, 5, 6);
+        Integer reduction = stream.reduce(0, (total, next) -> {
+            System.out.format("total: %d, next: %d\n", total, next);
+            return total + next;
+        });
+        System.out.println(reduction);
+    }
+
+    @Test
+    public void testSortedWithComparator() {
+        Stream<String> stream =
+                Stream.of("Apple", "Orange", "Banana", "Tomato", "Grapes", "Kiwi");
+
+        List<String> list = stream
+                .sorted(Comparator.comparingInt(String::length))
+                .collect(Collectors.toList());
+
         System.out.println(list);
     }
+
+    @Test
+    public void testSortedWithComparatorLevels() {
+        Stream<String> stream =
+                Stream.of("Apple", "Orange", "Banana", "Tomato", "Grapes", "Plum", "Kiwi");
+        System.out.println(stream
+                  .sorted(Comparator
+                          .comparing(String::length).thenComparing(identity()))
+                  .collect(Collectors.toList()));
+    }
+
+    @Test
+    public void testGrouping() {
+        IntStream stream = IntStream.range(0, 150403010);
+        Map<Boolean, List<Integer>> groups = stream.parallel().boxed()
+                                                    .collect(Collectors.groupingByConcurrent(i -> i % 3 == 0));
+        System.out.println(groups);
+    }
+
+    @Test
+    public void testPartitioning() {
+        Stream<String> stream =
+                Stream.of("Apple", "Orange", "Banana", "Tomato", "Grapes");
+        Map<Boolean, List<String>> partition = stream.collect
+                (Collectors.partitioningBy(s -> "AEIOU"
+                        .indexOf(s.toUpperCase().charAt(0)) >= 0));
+        System.out.println(partition);
+    }
+
+    @Test
+    public void testJoining() {
+        Stream<String> stream =
+                Stream.of("Apple", "Orange", "Banana", "Tomato", "Grapes");
+        System.out.println(stream.collect(Collectors.joining(", ", "{", "}")));
+    }
+
+    @Test
+    public void testDiscoveringAmerica() {
+        List<String> america = ZoneId.getAvailableZoneIds()
+                                     .stream()
+                                     .filter(s -> s.startsWith("America"))
+                                     .map(s -> s.substring(s.lastIndexOf('/') + 1))
+                                     .distinct()
+                                     .sorted()
+                                     .collect(Collectors.toList());
+        System.out.println(america);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
