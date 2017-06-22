@@ -7,6 +7,14 @@ public class Person {
     private String lastName;
     private EyeColor eyeColor;
 
+    public Person(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Person() {
+    }
+
     public String getFirstName() {
         return firstName;
     }
