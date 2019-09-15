@@ -12,9 +12,7 @@ public class Album {
         this.title = title;
     }
 
-    public Album() {
-
-    }
+    public Album() {}
 
     public String getTitle() {
         return title;

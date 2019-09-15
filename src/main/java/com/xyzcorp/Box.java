@@ -1,7 +1,5 @@
 package com.xyzcorp;
 
-import com.xyzcorp.people.Person;
-
 import java.util.function.Function;
 
 public class Box<A> {

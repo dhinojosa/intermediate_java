@@ -1,5 +1,9 @@
 package com.xyzcorp;
 
+import com.xyzcorp.demos.functions.MyConsumer;
+import com.xyzcorp.demos.functions.MyFunction;
+import com.xyzcorp.demos.functions.MyPredicate;
+
 import java.util.ArrayList;
 import java.util.List;
 
