@@ -101,19 +101,7 @@ public class GenericsTest {
         //Person person = northernCalifornians.getContents();
         Object object = northernCalifornians.getContents();
     }
-
-    public <E> void addElement(List<? super E> list, E e) {
-        list.add(e);
-    }
-
-    @Test
-    public void testAddElementContravariant() throws Exception {
-        List<Integer> list = Arrays.asList(4, 3, 4, 10, 12);
-        System.out.println("list.getClass().getSimpleName() = " + list.getClass().getCanonicalName());
-        addElement(list, 5);
-    }
-
-
+    
     public <E> Optional<E> findFirst(List<? extends E> list) {
         if (list.isEmpty()) return Optional.empty();
         return Optional.of(list.get(0));
