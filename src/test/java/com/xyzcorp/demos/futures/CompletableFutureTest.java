@@ -1,7 +1,8 @@
 package com.xyzcorp.demos.futures;
 
-import org.junit.Before;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.InputMismatchException;
 import java.util.concurrent.*;
@@ -14,7 +15,7 @@ public class CompletableFutureTest {
     private CompletableFuture<String> stringFuture1;
     private ExecutorService executorService;
 
-    @Before
+    @BeforeEach
     public void startUp() {
         executorService = Executors.newCachedThreadPool();
 

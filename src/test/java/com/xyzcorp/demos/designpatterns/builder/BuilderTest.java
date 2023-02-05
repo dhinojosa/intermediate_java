@@ -1,8 +1,8 @@
 package com.xyzcorp.demos.designpatterns.builder;
 
-import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BuilderTest {
     @Test
@@ -10,7 +10,7 @@ public class BuilderTest {
         Flower flower =
                 Flower.builder().petals(7).build();
 
-        assertEquals(7, flower.getPetals());
+        assertThat(flower.getPetals()).isEqualTo(7);
     }
 
     @Test
@@ -18,7 +18,7 @@ public class BuilderTest {
         Flower flower =
                 Flower.builder().latinName("Narcissus").build();
 
-        assertEquals("Narcissus", flower.getLatinName());
+        assertThat(flower.getLatinName()).isEqualTo("Narcissus");
     }
 
     @Test
@@ -29,7 +29,7 @@ public class BuilderTest {
                       .petals(4)
                       .build();
 
-        assertEquals("Narcissus", flower.getLatinName());
-        assertEquals(4, flower.getPetals());
+        assertThat(flower.getLatinName()).isEqualTo("Narcissus");
+        assertThat(flower.getPetals()).isEqualTo(7);
     }
 }

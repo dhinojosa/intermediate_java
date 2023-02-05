@@ -1,12 +1,11 @@
 package com.xyzcorp.demos.designpatterns.iterator;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.Assert.assertEquals;
 
 public class IteratorTest {
 
@@ -18,8 +17,8 @@ public class IteratorTest {
         String value1 = iterator.next();
         String value2 = iterator.next();
 
-        assertEquals(value1, "Foo");
-        assertEquals(value2, "Bar");
+        assertThat(value1).isEqualTo("Foo");
+        assertThat(value2).isEqualTo("Bar");
     }
 
     @Test
@@ -28,8 +27,8 @@ public class IteratorTest {
         String value1 = stringList.iterator().next();
         String value2 = stringList.iterator().next();
 
-        assertEquals(value1, "Foo");
-        assertEquals(value2, "Foo");
+        assertThat(value1).isEqualTo("Foo");
+        assertThat(value2).isEqualTo("Foo");
     }
 
     @Test
@@ -39,7 +38,7 @@ public class IteratorTest {
         while(iterator.hasNext()) {
             result.add(iterator.next());
         }
-        assertEquals("[Foo, Bar, Baz, Qux, Quux]",result.toString());
+        assertThat(result.toString()).isEqualTo("[Foo, Bar, Baz, Qux, Quux]");
     }
 
     @SuppressWarnings("UseBulkOperation")
@@ -50,7 +49,7 @@ public class IteratorTest {
         for (String s : list) {
             result.add(s);
         }
-        assertEquals("[Foo, Bar, Baz, Qux, Quux]",result.toString());
+        assertThat(result.toString()).isEqualTo("[Foo, Bar, Baz, Qux, Quux]");
     }
 
     @Test
@@ -65,7 +64,7 @@ public class IteratorTest {
         listIterator.previous();
         listIterator.previous();
         listIterator.next();
-        assertEquals(listIterator.next(), "Baz");
+        assertThat(listIterator.next()).isEqualTo("Baz");
     }
 
 
@@ -81,12 +80,12 @@ public class IteratorTest {
         listIterator.next(); //Two
         listIterator.add("Nice");
         String afterAdd = listIterator.next(); //Three
-        assertEquals("Three", afterAdd);
+        assertThat(afterAdd).isEqualTo("Three");
         listIterator.previous(); //Three
         listIterator.previous(); //Nice
         listIterator.next(); //Two
-        assertEquals("Three", listIterator.next());
-        assertEquals(list, List.of("One", "Two", "Nice", "Three", "Four"));
+        assertThat(listIterator.next()).isEqualTo("Three");
+        assertThat(list).isEqualTo(List.of("One", "Two", "Nice", "Three", "Four"));
     }
 
     @Test

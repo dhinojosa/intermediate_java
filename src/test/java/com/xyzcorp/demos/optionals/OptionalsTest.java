@@ -2,7 +2,7 @@ package com.xyzcorp.demos.optionals;
 
 import com.xyzcorp.demos.collections.CollectionsTest;
 import com.xyzcorp.demos.generics.people.Person;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;

@@ -2,7 +2,8 @@ package com.xyzcorp.demos.generics;
 
 import com.xyzcorp.Box;
 import com.xyzcorp.demos.generics.people.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.CharArrayWriter;
 import java.io.Closeable;
@@ -16,7 +17,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
 
 public class GenericsTest {
     @Test
@@ -101,7 +101,7 @@ public class GenericsTest {
         //Person person = northernCalifornians.getContents();
         Object object = northernCalifornians.getContents();
     }
-    
+
     public <E> Optional<E> findFirst(List<? extends E> list) {
         if (list.isEmpty()) return Optional.empty();
         return Optional.of(list.get(0));
@@ -110,7 +110,7 @@ public class GenericsTest {
     @Test
     public void testVariancesInMethod() {
         List<Integer> items = Arrays.asList(5,10, 12, 10, 19, 44);
-        assertEquals(Optional.of(5), findFirst(items));
+        assertThat(findFirst(items)).contains(5);
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.xyzcorp.demos.designpatterns.singleton;
 
 import com.xyzcorp.MySingleton;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SingletonTest {
 

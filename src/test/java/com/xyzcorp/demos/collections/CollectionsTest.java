@@ -4,14 +4,14 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.xyzcorp.demos.generics.people.EyeColor;
 import com.xyzcorp.demos.generics.people.Person;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
 public class CollectionsTest {
 
     @Test
-    public void testAlbumCreation() throws Exception {
+    public void testAlbumCreation() {
         Album album = new Album("Led Zeppelin");
         Album album2 = new Album();
     }

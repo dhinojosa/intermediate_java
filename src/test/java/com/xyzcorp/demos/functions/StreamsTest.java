@@ -1,6 +1,6 @@
 package com.xyzcorp.demos.functions;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -10,7 +10,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.function.Function.identity;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class StreamsTest {
 
@@ -19,36 +19,43 @@ public class StreamsTest {
         List<Integer> integers = Arrays.asList(1, 4, 5);
         List<Integer> result = integers.stream()
                                        .map(x -> x + 1).collect(Collectors.toList());
-        assertEquals(result, Arrays.asList(2, 5, 6));
+        assertThat(result).isEqualTo(Arrays.asList(2, 5, 6));
     }
 
     @Test
     public void testBasicWithOurOwnCollection() {
         List<Integer> numbers = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
         List<Integer> result = numbers.stream().parallel().map(x -> {
-            System.out.format("%s: map: %s\n", Thread.currentThread().getName(), x);
+            System.out.format("%s: map: %s\n",
+                Thread.currentThread().getName(), x);
             return x + 1;
         }).collect(
-                ArrayList::new,
-                (integers, integer) -> {
-                    System.out.format("%s: adding integer: %s\n", Thread.currentThread().getName(), integer);
-                    integers.add(integer);
-                }, (left, right) -> {
-                    synchronized (numbers) {
-                        System.out.format("%s: left = %s\n", Thread.currentThread().getName(), left);
-                        System.out.format("%s: right = %s\n", Thread.currentThread().getName(), right);
-                        left.addAll(right);
-                        System.out.format("%s: combined = %s\n", Thread.currentThread().getName(), left);
-                    }
-                });
-        assertEquals(result, Arrays.asList(2, 5, 6));
+            ArrayList::new,
+            (integers, integer) -> {
+                System.out.format("%s: adding integer: %s\n",
+                    Thread.currentThread().getName(), integer);
+                integers.add(integer);
+            }, (left, right) -> {
+                synchronized (numbers) {
+                    System.out.format("%s: left = %s\n",
+                        Thread.currentThread().getName(), left);
+                    System.out.format("%s: right = %s\n",
+                        Thread.currentThread().getName(), right);
+                    left.addAll(right);
+                    System.out.format("%s: combined = %s\n",
+                        Thread.currentThread().getName(), left);
+                }
+            });
+        assertThat(result).isEqualTo(Arrays.asList(2, 5, 6));
     }
 
     @Test
     public void testSum() {
         List<Integer> numbers = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-        Integer sum = numbers.stream().map(x -> x + 1).mapToInt(value -> value).sum();
-        Integer sum2 = numbers.stream().map(x -> x + 1).collect(Collectors.summingInt(x -> x));
+        Integer sum =
+            numbers.stream().map(x -> x + 1).mapToInt(value -> value).sum();
+        Integer sum2 =
+            numbers.stream().map(x -> x + 1).collect(Collectors.summingInt(x -> x));
     }
 
     @Test
@@ -58,7 +65,7 @@ public class StreamsTest {
                                .map(x -> x + 1)
                                .map(Object::toString)
                                .collect(Collectors.joining(", "));
-        assertEquals("2, 3, 4, 5", collect);
+        assertThat(collect).isEqualTo("2, 3, 4, 5");
     }
 
     @Test
@@ -89,10 +96,13 @@ public class StreamsTest {
 
     @Test
     public void testLimit() {
-        Stream<Integer> integerStream = Stream.iterate(0, x -> x + 1); //Goes on forever!
+        Stream<Integer> integerStream = Stream.iterate(0, x -> x + 1); //Goes
+        // on forever!
         List<Integer> result = integerStream.map(x -> x + 4)
                                             .parallel()
-                                            .peek(x -> System.out.format("%s: element %s\n", Thread.currentThread().getName(), x))
+                                            .peek(x -> System.out.format("%s:" +
+                                                " element %s\n",
+                                                Thread.currentThread().getName(), x))
                                             .limit(10)
                                             .collect(Collectors.toList());
         System.out.println(result);
@@ -101,13 +111,14 @@ public class StreamsTest {
     @Test
     public void testFlatMap() {
         Stream<Stream<Integer>> streamStream =
-                Stream.of(1, 2, 3, 4).map(x -> Stream.of(-x, x, x + 2));
+            Stream.of(1, 2, 3, 4).map(x -> Stream.of(-x, x, x + 2));
 
         Stream<Integer> stream =
-                Stream.of(1, 2, 3, 4).flatMap(x -> Stream.of(-x, x, x + 2));
+            Stream.of(1, 2, 3, 4).flatMap(x -> Stream.of(-x, x, x + 2));
 
         Stream<LocalDateTime> stream1 = Stream.generate(LocalDateTime::now)
-                                              .flatMap(x -> Stream.of(x, x.plusYears(10)))
+                                              .flatMap(x -> Stream.of(x,
+                                                  x.plusYears(10)))
                                               .limit(20);
 
         System.out.println("stream1 = " + stream1);
@@ -127,12 +138,12 @@ public class StreamsTest {
         Stream<Integer> s3 = Stream.of(0);
 
         List<Integer> result =
-                s1.flatMap(x ->
-                        s2.flatMap(y ->
-                                s3.flatMap(z -> {
-                                    if (z == 0) return Stream.empty();
-                                    else return Stream.of(x + y / z);
-                                }))).collect(Collectors.toList());
+            s1.flatMap(x ->
+                s2.flatMap(y ->
+                    s3.flatMap(z -> {
+                        if (z == 0) return Stream.empty();
+                        else return Stream.of(x + y / z);
+                    }))).collect(Collectors.toList());
 
         System.out.println("result = " + result);
 
@@ -165,11 +176,11 @@ public class StreamsTest {
     @Test
     public void testSortedWithComparator() {
         Stream<String> stream =
-                Stream.of("Apple", "Orange", "Banana", "Tomato", "Grapes", "Kiwi");
+            Stream.of("Apple", "Orange", "Banana", "Tomato", "Grapes", "Kiwi");
 
         List<String> list = stream
-                .sorted(Comparator.comparingInt(String::length))
-                .collect(Collectors.toList());
+            .sorted(Comparator.comparingInt(String::length))
+            .collect(Collectors.toList());
 
         System.out.println(list);
     }
@@ -177,11 +188,12 @@ public class StreamsTest {
     @Test
     public void testSortedWithComparatorLevels() {
         Stream<String> stream =
-                Stream.of("Apple", "Orange", "Banana", "Tomato", "Grapes", "Plum", "Kiwi");
+            Stream.of("Apple", "Orange", "Banana", "Tomato", "Grapes", "Plum"
+                , "Kiwi");
         System.out.println(stream
-                .sorted(Comparator
-                        .comparing(String::length).thenComparing(identity()))
-                .collect(Collectors.toList()));
+            .sorted(Comparator
+                .comparing(String::length).thenComparing(identity()))
+            .collect(Collectors.toList()));
     }
 
     @Test
@@ -195,17 +207,17 @@ public class StreamsTest {
     @Test
     public void testPartitioning() {
         Stream<String> stream =
-                Stream.of("Apple", "Orange", "Banana", "Tomato", "Grapes");
+            Stream.of("Apple", "Orange", "Banana", "Tomato", "Grapes");
         Map<Boolean, List<String>> partition = stream.collect
-                (Collectors.partitioningBy(s -> "AEIOU"
-                        .indexOf(s.toUpperCase().charAt(0)) >= 0));
+                                                         (Collectors.partitioningBy(s -> "AEIOU"
+                                                             .indexOf(s.toUpperCase().charAt(0)) >= 0));
         System.out.println(partition);
     }
 
     @Test
     public void testJoining() {
         Stream<String> stream =
-                Stream.of("Apple", "Orange", "Banana", "Tomato", "Grapes");
+            Stream.of("Apple", "Orange", "Banana", "Tomato", "Grapes");
         System.out.println(stream.collect(Collectors.joining(", ", "{", "}")));
     }
 
