@@ -2,7 +2,6 @@ package com.xyzcorp.demos.collections;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import com.xyzcorp.Album;
 import com.xyzcorp.demos.generics.people.EyeColor;
 import com.xyzcorp.demos.generics.people.Person;
 import org.junit.Test;
@@ -89,7 +88,7 @@ public class CollectionsTest {
         queue.offer(new Person("Jane", "Austen"));
         queue.offer(new Person("Leo", "Tolstoy"));
         queue.offer(new Person("Lewis", "Carroll"));
-        assert(queue.peek().getLastName().equals("Austen"));
+        assert(Optional.ofNullable(queue.peek()).map(Person::getLastName).orElse("").equals("Austen"));
     }
 
     @Test
