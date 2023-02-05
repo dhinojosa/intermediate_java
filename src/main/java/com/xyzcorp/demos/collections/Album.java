@@ -1,4 +1,4 @@
-package com.xyzcorp;
+package com.xyzcorp.demos.collections;
 
 import java.util.Objects;
 
