@@ -18,6 +18,7 @@ class JUnit5AssertionsTest {
     }
 
     @Test
+    @DisplayName("Grouped Assertion Testing")
     void groupedAssertions() {
         // In a grouped assertion all assertions are executed, and any
         // failures will be reported together.
@@ -30,6 +31,7 @@ class JUnit5AssertionsTest {
     }
 
     @Test
+    @DisplayName("Dependent Assertion Testing")
     void dependentAssertions() {
         // Within a code block, if an assertion fails the
         // subsequent code in the same block will be skipped.
