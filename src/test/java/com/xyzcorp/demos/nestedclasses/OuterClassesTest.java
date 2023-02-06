@@ -20,6 +20,19 @@ public class OuterClassesTest {
     }
 
     @Test
+    void testAccessingTheInnerClass() {
+        OuterClass outerClass = new OuterClass();
+        OuterClass.InnerClass innerClass = outerClass.bar();
+        assertThat(innerClass.sum()).isEqualTo(6);
+    }
+
+    @Test
+    void testPurelyAccessingAStaticVariable() {
+        int result = OuterClass.baz();
+        assertThat(result).isEqualTo(29);
+    }
+
+    @Test
     public void testUsingClassesWithStaticInnerClasses() {
         OuterClass.StaticInnerClass staticInnerClass = new OuterClass
             .StaticInnerClass();

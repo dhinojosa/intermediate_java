@@ -1,6 +1,6 @@
 package com.xyzcorp.demos.designpatterns.singleton;
 
-import com.xyzcorp.MySingleton;
+import com.xyzcorp.demos.threads.MySingleton;
 import org.junit.jupiter.api.Test;
 
 public class SingletonTest {

@@ -52,15 +52,14 @@ public class OptionalsTest {
     public void testGettingTheValueTheGoodWayUsingGetOrElse() {
         Optional<Long> optionalLong = Optional.of(40L);
         Long result = optionalLong.orElse(-1L);
-        assertThat(result).isEqualTo(-1);
+        assertThat(result).isEqualTo(40L);
     }
-
 
     @Test
     public void testGettingTheValueTheGoodWayUsingOrElseGetSupplier() {
         Optional<Long> optionalLong = Optional.of(40L);
         Long result = optionalLong.orElseGet(this::getDefaultAverage);
-        assertThat(result).isEqualTo(30L);
+        assertThat(result).isEqualTo(40L);
     }
 
     @Test

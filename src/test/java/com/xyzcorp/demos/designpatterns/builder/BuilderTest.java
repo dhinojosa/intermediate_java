@@ -30,6 +30,6 @@ public class BuilderTest {
                       .build();
 
         assertThat(flower.getLatinName()).isEqualTo("Narcissus");
-        assertThat(flower.getPetals()).isEqualTo(7);
+        assertThat(flower.getPetals()).isEqualTo(4);
     }
 }

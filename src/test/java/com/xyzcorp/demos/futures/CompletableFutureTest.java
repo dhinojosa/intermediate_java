@@ -8,6 +8,9 @@ import java.util.InputMismatchException;
 import java.util.concurrent.*;
 import java.util.function.BiFunction;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 public class CompletableFutureTest {
 
     private CompletableFuture<Integer> integerFuture1;
@@ -267,12 +270,13 @@ public class CompletableFutureTest {
         Thread.sleep(1000);
     }
 
+    @SuppressWarnings("unused")
     @Test
     public void testCasting() {
         ExecutorService executorService = Executors.newFixedThreadPool(40);
         Future<Integer> integerFuture = executorService.submit(() -> 4000);
-        CompletableFuture<Integer> completableFuture =
-                (CompletableFuture<Integer>) integerFuture;
-        completableFuture.thenApply(x -> x + 3000).thenAccept(System.out::println);
+        assertThatThrownBy(() -> {
+           CompletableFuture<Integer> completableFuture = (CompletableFuture<Integer>) integerFuture;
+        }).isInstanceOf(ClassCastException.class);
     }
 }

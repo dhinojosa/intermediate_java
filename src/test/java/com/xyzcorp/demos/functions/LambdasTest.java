@@ -1,7 +1,6 @@
 package com.xyzcorp.demos.functions;
 
-import com.xyzcorp.Functions;
-import com.xyzcorp.TaxRate;
+import com.xyzcorp.demos.designpatterns.factorymethod.example.Dollar;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 
 public class LambdasTest {
@@ -22,13 +22,29 @@ public class LambdasTest {
     }
 
 
+    class Euro {
+        private final int value;
+        public Euro(int value) {
+            this.value = value;
+        }
+        public int getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return new StringJoiner(", ", Euro.class.getSimpleName() + "[", "]")
+                .add("value=" + value)
+                .toString();
+        }
+    }
     @Test
     public void testMyMap() {
         List<Integer> numbers = Arrays.asList(4, 5, 7, 8);
         List<Integer> mapped = Functions.myMap(numbers, t -> t + 2);
         assertThat(Arrays.asList(6, 7, 9, 10)).isEqualTo(mapped);
         List<String> strings = Functions.myMap(numbers, Integer::toHexString);
-        Functions.myMap(numbers, Double::new); //whoa
+        Functions.myMap(numbers, Euro::new); //whoa
     }
 
     @Test

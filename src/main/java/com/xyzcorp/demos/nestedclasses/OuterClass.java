@@ -6,6 +6,7 @@ public class OuterClass {
 
     public class InnerClass {
         private int y = 2;
+
         public int sum() {
             return x + y;
         }
@@ -13,6 +14,7 @@ public class OuterClass {
 
     public static class StaticInnerClass {
         private int z = 10;
+
         public int bar() {
             return z + 19 + a;
         }
@@ -22,12 +24,23 @@ public class OuterClass {
         return x + 1;
     }
 
+    public InnerClass bar() {
+        return new InnerClass();
+    }
+
     public static int baz() {
         return a + 10;
     }
 
     public int qux(int m) {
         int g = 10;
+
+        /*
+          This local class cannot be returned
+          It is meant for the purposes to be used within the
+          method. If was even attempted to be returned it wouldn't
+          know how to find it. It would end up being an inner class.
+         */
         class MyLocalClass {
             private int art(int n) {
                 return m + n + g;

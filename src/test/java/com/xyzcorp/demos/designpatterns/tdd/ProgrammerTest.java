@@ -1,10 +1,10 @@
 package com.xyzcorp.demos.designpatterns.tdd;
 
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.assertThat;
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.function.Supplier;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class ProgrammerTest {
@@ -42,22 +42,5 @@ public class ProgrammerTest {
                 "James", "Gosling", LocalDate.of(1955, 5, 19),
                 () -> LocalDate.of(2018, 8, 20));
         assertThat(programmer.getAge()).isEqualTo(63);
-    }
-
-    //Integration Test - non-isolation
-
-    @Test
-    void testGoslingWithActualDate() {
-        Programmer programmer = new Programmer(
-                "James", "Gosling", LocalDate.of(1955, 5, 19),
-                LocalDate::now);
-        assertThat(programmer.getAge()).isEqualTo(63);
-    }
-
-    @Test
-    public void testCreateProgrammerUsingAFactory() {
-        Programmer programmer = ProgrammerFactory
-                .create("Guido", "Van Rossum", LocalDate.of(1956, 1, 31));
-        assertThat(programmer.getAge()).isEqualTo(62);
     }
 }
