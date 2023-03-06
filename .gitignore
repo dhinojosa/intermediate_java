@@ -133,3 +133,5 @@ flycheck_*.el
 # session
 # temporary
 # auto-generated tag files
+.metals/
+.vscode/
