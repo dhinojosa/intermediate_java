@@ -53,6 +53,8 @@ public class CollectionsTest {
 
     @Test
     public void testUsingMap() {
+
+
         Map<String, String> teams = new HashMap<>();
         teams.put("San Francisco", "49ers");
         teams.put("Las Vegas", "Raiders");

@@ -26,6 +26,14 @@ public class Functions {
         return result;
     }
 
+    public static <T, R> List<R> myFlatMap(List<T> list, MyFunction<T, List<R>> myFunction) {
+        ArrayList<R> result = new ArrayList<>();
+        for (T t : list) {
+            result.addAll(myFunction.apply(t));
+        }
+        return result;
+    }
+
     public static <T> void myForEach(List<T> list, MyConsumer<T> myConsumer) {
         for (T t : list) {
             myConsumer.accept(t);
@@ -39,6 +47,8 @@ public class Functions {
         }
         return result;
     }
+
+
 }
 
 

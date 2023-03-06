@@ -2,13 +2,24 @@ package com.xyzcorp.demos.nestedclasses;
 
 public class OuterClass {
     private int x = 4;
+
+    private int m = 30;
+
     private static int a = 19;
 
     public class InnerClass {
         private int y = 2;
 
         public int sum() {
+
             return x + y;
+        }
+
+        public int sumCond(int aa) {
+            if (aa == 30) {
+                m = 50;
+            }
+            return m + x + y;
         }
     }
 
@@ -32,8 +43,8 @@ public class OuterClass {
         return a + 10;
     }
 
-    public int qux(int m) {
-        int g = 10;
+    public int qux(int mz) {
+        final int g = 10;
 
         /*
           This local class cannot be returned
@@ -43,7 +54,7 @@ public class OuterClass {
          */
         class MyLocalClass {
             private int art(int n) {
-                return m + n + g;
+                return mz + n + g + a + x;
             }
         }
 
