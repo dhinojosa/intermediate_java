@@ -1,5 +1,7 @@
 package com.xyzcorp.exercises.optionals;
 
+import com.xyzcorp.demos.optionals.Pair;
+import com.xyzcorp.demos.optionals.Triple;
 import org.junit.jupiter.api.Test;
 
 import java.util.AbstractMap;
@@ -50,24 +52,94 @@ class OptionalExercises {
     }
 
     @Test
-    void testGettingFromNorwayTheCapitalAndPopulation() {
+    void testGettingFromNorwayTheCapitalAndPopulationWithString() {
         String country = "Norway";
         Optional<String> capitalOptional =
             Optional.ofNullable(europeanCountriesCapitals.get(country));
         Optional<String> stringOptional =
             capitalOptional.flatMap(capital ->
-                  Optional.ofNullable(europeanCapitalPopulation.get(capital))
-                          .map(population -> String.format("%s %s", capital, population)));
-        assertThat(stringOptional).contains("Oslo 634293");
+                Optional.ofNullable(europeanCapitalPopulation.get(capital))
+                        .map(population -> String.format("%s, with a " +
+                            "population of %d", capital, population)));
+        assertThat(stringOptional).contains("Oslo, with a population of " +
+            "634293");
+    }
+
+    @Test
+    void testGettingFromNorwayTheCapitalAndPopulationWithPair() {
+        String country = "Norway";
+        Optional<String> capitalOptional =
+            Optional.ofNullable(europeanCountriesCapitals.get(country));
+        Optional<Pair<String, Integer>> optionalPair =
+            capitalOptional
+                .flatMap(capital ->
+                    Optional.ofNullable(
+                                europeanCapitalPopulation.get(capital))
+                            .map(population ->
+                                new Pair<>(capital, population)));
+        Optional<String> optionalString =
+            optionalPair.map(p -> String.format("%s, with a " +
+                "population of %d", p.getA(), p.getB()));
+        assertThat(optionalString).contains("Oslo, with a population of " +
+            "634293");
     }
 
     @Test
     void testGettingFromGreeceTheCapitalAndPopulation() {
-
+        String country = "Greece";
+        Optional<String> capitalOptional = Optional
+            .ofNullable(
+                europeanCountriesCapitals.get(country));
+        Optional<Pair<String, Integer>> optionalPair =
+            capitalOptional
+                .flatMap(capital ->
+                    Optional.ofNullable(
+                                europeanCapitalPopulation.get(capital))
+                            .map(population ->
+                                new Pair<>(capital, population)));
+        Optional<String> s = optionalPair.map(p -> String.format("%s, with a " +
+            "population of %d", p.getA(), p.getB()));
+        assertThat(s).isEmpty();
     }
 
     @Test
-    void testGettingFromNorwayTheCountryAndCapital() {
+    void testGettingFromNorwayTheCountryAndCapitalAndPopulation() {
+        String country = "Norway";
+        Optional<Triple<String, String, Integer>> tripleOptional =
+            Optional.ofNullable(europeanCountriesCapitals.get(country))
+                    .flatMap(capital ->
+                        Optional.ofNullable(europeanCapitalPopulation.get(capital))
+                                .map(population -> new Triple<>(country,
+                                    capital, population)));
+        Optional<String> result = tripleOptional.map(t -> String.format("%s, " +
+            "with " +
+            "the capital %s, has a " +
+            "population of %d", t.getA(), t.getB(), t.getC()));
 
+        assertThat(result).contains("Norway, with the capital Oslo, has a " +
+            "population of 634293");
+    }
+
+    @Test
+    void testGettingFromNorwayTheCountryAndCapitalAndPopulationWithThreeOptionals() {
+
+        Optional<String> countryOptional = Optional.of("Norway");
+
+        Optional<Triple<String, String, Integer>> tripleOptional =
+            countryOptional
+                .flatMap(country ->
+                Optional.ofNullable(europeanCountriesCapitals.get(country))
+                        .flatMap(capital ->
+                            Optional.ofNullable(europeanCapitalPopulation.get(capital))
+                                    .map(population -> new Triple<>(country,
+                                        capital, population))));
+
+        Optional<String> result = tripleOptional.map(t -> String.format("%s, " +
+            "with " +
+            "the capital %s, has a " +
+            "population of %d", t.getA(), t.getB(), t.getC()));
+
+        assertThat(result).contains("Norway, with the capital Oslo, has a " +
+            "population of 634293");
     }
 }
