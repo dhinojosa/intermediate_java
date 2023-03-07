@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.AbstractMap;
 import java.util.Map;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class OptionalExercises {
 
@@ -34,17 +37,28 @@ class OptionalExercises {
 
     @Test
     void testGettingGreeceCapital() {
-
+        Optional<String> optional =
+            Optional.ofNullable(europeanCountriesCapitals.get("Greece"));
+        assertThat(optional).contains("Athens");
     }
 
     @Test
     void testGettingHungaryCapital() {
-
+        Optional<String> optional =
+            Optional.ofNullable(europeanCountriesCapitals.get("Hungary"));
+        assertThat(optional).isEmpty();
     }
 
     @Test
     void testGettingFromNorwayTheCapitalAndPopulation() {
-
+        String country = "Norway";
+        Optional<String> capitalOptional =
+            Optional.ofNullable(europeanCountriesCapitals.get(country));
+        Optional<String> stringOptional =
+            capitalOptional.flatMap(capital ->
+                  Optional.ofNullable(europeanCapitalPopulation.get(capital))
+                          .map(population -> String.format("%s %s", capital, population)));
+        assertThat(stringOptional).contains("Oslo 634293");
     }
 
     @Test
