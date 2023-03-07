@@ -1,5 +1,6 @@
 package com.xyzcorp.demos.exceptions;
 
+import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.*;
 
 import java.io.FileWriter;
@@ -8,6 +9,10 @@ import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.stream.BaseStream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ExceptionThrowerTest {
 
@@ -56,12 +61,26 @@ public class ExceptionThrowerTest {
     }
 
     @Test
+    void testRuntimeExceptionHandlingWithAssertJ() {
+        assertThatThrownBy(ExceptionThrower::throwRuntimeException)
+            .isInstanceOf(RuntimeException.class)
+            .hasMessage("This is a runtime exception");
+    }
+
+    @Test
+    void testCustomExceptionHandlingWithAssertJ() {
+        assertThatThrownBy(ExceptionThrower::throwCustomException)
+            .isInstanceOf(CustomException.class)
+            .hasMessage("Yay! I create my own");
+    }
+
+    @Test
     void testMakingACallWithJavaIO() {
         PrintWriter out = null;
         try {
             URL url = new URL("https://java.net");
             out = new PrintWriter(new FileWriter("OutFile.txt"));
-            System.out.println(10/0);
+            System.out.println(10 / 0);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         } finally {

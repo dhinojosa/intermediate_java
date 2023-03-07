@@ -32,7 +32,7 @@ public class FunctionExercisesTest {
 
     @Test
     void testMyTimer() {
-        TimeResult result = MyTimer.measureTime(() -> {
+        TimeResult<Integer> result = MyTimer.measureTime(() -> {
             try {
                 Thread.sleep(4000);
             } catch (InterruptedException e) {

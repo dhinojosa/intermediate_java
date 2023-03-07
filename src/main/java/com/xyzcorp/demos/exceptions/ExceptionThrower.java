@@ -9,11 +9,7 @@ public class ExceptionThrower {
         throw new RuntimeException("This is a runtime exception");
     }
 
-    public static void throwCustomException() {
-        try {
-            throw new CustomException("Yay! I create my own");
-        } catch (CustomException e) {
-            throw new RuntimeException(e);
-        }
+    public static void throwCustomException() throws CustomException {
+        throw new CustomException("Yay! I create my own");
     }
 }
