@@ -13,10 +13,11 @@ public class OuterClassesTest {
     @Test
     void testUsingMap() {
         Map<String, String> countiesAndCapitals = new HashMap<>();
-        countiesAndCapitals.put("Brazil", "Brasilia");
+        countiesAndCapitals.put("France", "Paris");
         countiesAndCapitals.put("United States", "Washington, D.C.");
         countiesAndCapitals.put("Croatia", "Zagreb");
-
+        countiesAndCapitals.put("Zimbabwe", "Harare");
+        countiesAndCapitals.put("Brazil", "Brasilia");
         assertThat(countiesAndCapitals.get("Brazil")).isEqualTo("Brasilia");
     }
 
